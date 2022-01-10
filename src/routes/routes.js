@@ -45,12 +45,13 @@ router
     })
     .put('/api/countries/:id', (req, res) => {
         const country = countries.find(c => c.id === parseInt(req.params.id));
-        if (!country) res.status(404).send('Country not found');
+        if (!country) {
+            return res.status(404).send('Country not found');
+        }
 
         const { error } = validateSchema(req.body);
         if (error) {
-            res.status(400).send(error.message);
-            return;
+            return res.status(400).send(error.message);
         }
 
         country.name = req.body.name;
